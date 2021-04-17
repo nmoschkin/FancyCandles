@@ -2,8 +2,8 @@ This is a fork of the main project.  I'm adding things as I go.
 
 Added:
 
-Number formatting options for price and volume.
-Changed volume value to double value.
+ - Number formatting options for price and volume.
+ - Changed volume value to double value.
 
 # ![candlestick chart control](https://raw.githubusercontent.com/gellerda/FancyCandles/master/FancyCandles/icon.png) FancyCandles
 
