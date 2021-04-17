@@ -1,5 +1,7 @@
 This is a fork of the main project.  I'm adding things as I go.
 
+Updated project for .NET 5.
+
 Added:
 
  - Number formatting options for price and volume.
