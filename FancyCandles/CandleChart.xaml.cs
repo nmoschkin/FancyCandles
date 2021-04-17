@@ -58,18 +58,18 @@ namespace FancyCandles
 
         /// <summary>The Volume minimum.</summary>
         /// <value>The Volume minimum.</value>
-        public long VolumeLow;
+        public double VolumeLow;
 
         /// <summary>The Volume maximum.</summary>
         /// <value>The Volume maximum.</value>
-        public long VolumeHigh;
+        public double VolumeHigh;
 
         /// <summary>Initializes a new instance of the CandleExtremums structure that has the specified PriceLow, PriceHigh, VolumeLow, and VolumeHigh.</summary>
         /// <param name="priceLow">The PriceLow of the CandleExtremums.</param>
         /// <param name="priceHigh">The PriceHigh of the CandleExtremums.</param>
         /// <param name="volumeLow">The VolumeLow of the CandleExtremums.</param>
         /// <param name="volumeHigh">The VolumeHigh of the CandleExtremums.</param>
-        public CandleExtremums(double priceLow, double priceHigh, long volumeLow, long volumeHigh)
+        public CandleExtremums(double priceLow, double priceHigh, double volumeLow, double volumeHigh)
         {
             PriceLow = priceLow;
             PriceHigh = priceHigh;
@@ -924,10 +924,35 @@ namespace FancyCandles
             }
         }
 
+        /// <summary>
+        /// Gets or sets the string format to use for volume.
+        /// </summary>
+        public string VolumeNumberFormat
+        {
+            get { return (string)GetValue(VolumeNumberFormatProperty); }
+            set { SetValue(VolumeNumberFormatProperty, value); }
+        }
+        public static readonly DependencyProperty VolumeNumberFormatProperty
+            = DependencyProperty.Register("VolumeNumberFormat", typeof(string), typeof(VolumeTicksElement), new FrameworkPropertyMetadata("#,##0.00##"));
+        //---------------------------------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Gets or sets the string format to use for price.
+        /// </summary>
+        public string PriceNumberFormat
+        {
+            get { return (string)GetValue(PriceNumberFormatProperty); }
+            set { SetValue(PriceNumberFormatProperty, value); }
+        }
+        public static readonly DependencyProperty PriceNumberFormatProperty
+            = DependencyProperty.Register("PriceNumberFormat", typeof(string), typeof(VolumeTicksElement), new FrameworkPropertyMetadata("#,##0.00##"));
+        //---------------------------------------------------------------------------------------------------------------------------------------
+
+
         // Просматривает CandlesSource и пересчитывает maxNumberOfCharsInPrice
         void ReCalc_MaxNumberOfCharsInPrice()
         {
-            if (CandlesSource == null) return;
+            if (CandlesSource == null || CandlesSource.Count == 0) return;
             int charsInPrice = CandlesSource.Select(c => c.H.ToString().Length).Max();
             int charsInVolume = IsVolumePanelVisible ? CandlesSource.Select(c => c.V.ToString().Length).Max() : 0;
             MaxNumberOfCharsInPrice = Math.Max(charsInPrice, charsInVolume);
@@ -1483,8 +1508,8 @@ namespace FancyCandles
             int end_i = VisibleCandlesRange.Start_i + VisibleCandlesRange.Count - 1;
             double maxH = double.MinValue;
             double minL = double.MaxValue;
-            long maxV = long.MinValue;
-            long minV = long.MaxValue;
+            double maxV = long.MinValue;
+            double minV = long.MaxValue;
             for (int i = VisibleCandlesRange.Start_i; i <= end_i; i++)
             {
                 ICandle cndl = CandlesSource[i];
@@ -1502,8 +1527,8 @@ namespace FancyCandles
             ICandle cndl = CandlesSource[changedCandle_i];
             double newPriceL = Math.Min(cndl.L, VisibleCandlesExtremums.PriceLow);
             double newPriceH = Math.Max(cndl.H, VisibleCandlesExtremums.PriceHigh);
-            long newVolL = Math.Min(cndl.V, VisibleCandlesExtremums.VolumeLow);
-            long newVolH = Math.Max(cndl.V, VisibleCandlesExtremums.VolumeHigh);
+            double newVolL = Math.Min(cndl.V, VisibleCandlesExtremums.VolumeLow);
+            double newVolH = Math.Max(cndl.V, VisibleCandlesExtremums.VolumeHigh);
             VisibleCandlesExtremums = new CandleExtremums(newPriceL, newPriceH, newVolL, newVolH);
         }
         //----------------------------------------------------------------------------------------------------------------------------------
@@ -1753,7 +1778,7 @@ namespace FancyCandles
         //----------------------------------------------------------------------------------------------------------------------------------
         private void OnPanelCandlesContainerSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (!IsLoaded || e.NewSize.Width == 0 || CandlesSource.Count() == 0)
+            if (!IsLoaded || e.NewSize.Width == 0 || (CandlesSource?.Count() ?? 0) == 0)
                 return;
 
             if (e.NewSize.Width != e.PreviousSize.Width)

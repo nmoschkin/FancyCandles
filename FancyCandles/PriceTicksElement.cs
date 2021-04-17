@@ -84,6 +84,14 @@ namespace FancyCandles
         public static readonly DependencyProperty GapBetweenTickLabelsProperty
             = DependencyProperty.Register("GapBetweenTickLabels", typeof(double), typeof(PriceTicksElement), new FrameworkPropertyMetadata(0.0) { AffectsRender = true });
         //---------------------------------------------------------------------------------------------------------------------------------------
+        public string NumberFormat
+        {
+            get { return (string)GetValue(NumberFormatProperty); }
+            set { SetValue(NumberFormatProperty, value); }
+        }
+        public static readonly DependencyProperty NumberFormatProperty
+            = DependencyProperty.Register("NumberFormat", typeof(string), typeof(PriceTicksElement), new FrameworkPropertyMetadata("#,##0.00##"));
+        //---------------------------------------------------------------------------------------------------------------------------------------
         public double ChartBottomMargin
         {
             get { return (double)GetValue(ChartBottomMarginProperty); }
@@ -166,7 +174,7 @@ namespace FancyCandles
 
             void DrawPriceTick(double price)
             {
-                FormattedText priceTickFormattedText = new FormattedText(price.ToString(), CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Verdana"), PriceTickFontSize, AxisTickColor, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+                FormattedText priceTickFormattedText = new FormattedText(price.ToString(NumberFormat), CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Verdana"), PriceTickFontSize, AxisTickColor, VisualTreeHelper.GetDpi(this).PixelsPerDip);
                 double y = ChartTopMargin + (VisibleCandlesExtremums.PriceHigh - price) * chartHeight_candlesLHRange_Ratio;
                 drawingContext.DrawText(priceTickFormattedText, new Point(tick_text_X, y - halfTextHeight));
                 drawingContext.DrawLine(axisTickPen, new Point(candlePanelWidth, y), new Point(tick_line_endX, y));
