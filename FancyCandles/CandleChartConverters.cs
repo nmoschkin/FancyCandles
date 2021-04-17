@@ -37,7 +37,36 @@ namespace FancyCandles
 
             Point currentMousePosition = (Point)values[0];
             double priceTickTextHeight = (double)values[1];
-            return new Thickness(0, currentMousePosition.Y - priceTickTextHeight / 2.0, 0, 0);
+
+            if (values.Length > 2)
+            {
+                double ChartAreaHeight = (double)values[2];
+                double priceLow = ((CandleExtremums)values[3]).PriceLow;
+                double priceHigh = ((CandleExtremums)values[3]).PriceHigh;
+                double chartTopMargin = (double)values[4];
+                double chartBottomMargin = (double)values[5];
+
+                double? rtv = values.Length > 6 ? (double?)values[6] : null;
+                bool mo = values.Length > 7 ? (bool)values[7] : true;
+
+                if (!mo && rtv != null)
+                {
+                    var rt = (double)rtv;
+                    var cc = (chartTopMargin / 2) + ((ChartAreaHeight - chartTopMargin - chartBottomMargin) * (1 - ((Math.Max(rt, priceLow) - Math.Min(rt, priceLow)) / (priceHigh - priceLow))));
+
+                    return new Thickness(0, cc - priceTickTextHeight / 2.0, 0, 0);
+
+                }
+                else
+                {
+                    return new Thickness(0, currentMousePosition.Y - priceTickTextHeight / 2.0, 0, 0);
+                }
+
+            }
+            else
+            {
+                return new Thickness(0, currentMousePosition.Y - priceTickTextHeight / 2.0, 0, 0);
+            }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -66,7 +95,30 @@ namespace FancyCandles
             double chartTopMargin = (double)values[3];
             double chartBottomMargin = (double)values[4];
             int maxNumberOfDigitsAfterPointInPrice = (int)values[5];
-            return Math.Round((priceHigh - (currentMousePosition.Y - chartTopMargin) / (ChartAreaHeight - chartTopMargin - chartBottomMargin) * (priceHigh - priceLow)), maxNumberOfDigitsAfterPointInPrice).ToString();
+            string fmt = values.Length > 6 ? (string)values[6] : "";
+            double? rtv = values.Length > 7 ? (double?)values[7] : null;
+            bool mo = values.Length > 8 ? (bool)values[8] : true;
+
+            double price;
+
+            if (!mo && (rtv is double rt))
+            {
+                price = rt;
+            }
+            else 
+            {
+                price = priceHigh - (currentMousePosition.Y - chartTopMargin) / (ChartAreaHeight - chartTopMargin - chartBottomMargin) * (priceHigh - priceLow);
+            }
+
+            if (string.IsNullOrEmpty(fmt))
+            {
+                return Math.Round(price, maxNumberOfDigitsAfterPointInPrice).ToString();
+            }
+            else
+            {
+                return price.ToString(fmt);
+            }
+
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -204,7 +256,9 @@ namespace FancyCandles
 
             bool bool0 = (bool)values[0];
             bool bool1 = (bool)values[1];
-            return (bool0 && bool1) ? Visibility.Visible : Visibility.Collapsed;
+            bool bool2 = values.Length > 2 ? (values[2] != null) : false;
+
+            return (bool0 && (bool1 || bool2)) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

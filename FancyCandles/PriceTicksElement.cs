@@ -166,9 +166,9 @@ namespace FancyCandles
             double tick_line_endX = candlePanelWidth + TICK_LINE_WIDTH;
 
             double chartHeight = ActualHeight - ChartBottomMargin - ChartTopMargin;
-            double stepInRubles = (VisibleCandlesExtremums.PriceHigh - VisibleCandlesExtremums.PriceLow) / chartHeight * (textHeight + GapBetweenTickLabels);
-            double stepInRubles_maxDigit = MyWpfMath.MaxDigit(stepInRubles);
-            stepInRubles = Math.Ceiling(stepInRubles / stepInRubles_maxDigit) * stepInRubles_maxDigit;
+            double stepInCurrency = (VisibleCandlesExtremums.PriceHigh - VisibleCandlesExtremums.PriceLow) / chartHeight * (textHeight + GapBetweenTickLabels);
+            double stepInRubles_maxDigit = MyWpfMath.MaxDigit(stepInCurrency);
+            stepInCurrency = Math.Ceiling(stepInCurrency / stepInRubles_maxDigit) * stepInRubles_maxDigit;
             //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             double chartHeight_candlesLHRange_Ratio = chartHeight / (VisibleCandlesExtremums.PriceHigh - VisibleCandlesExtremums.PriceLow);
 
@@ -190,21 +190,21 @@ namespace FancyCandles
             double minPriceThreshold = VisibleCandlesExtremums.PriceHigh + (ChartTopMargin - ActualHeight + halfTextHeight) / chartHeight_candlesLHRange_Ratio;
 
             int step_i = 1;
-            double next_tick = theMostRoundPrice + step_i * stepInRubles;
+            double next_tick = theMostRoundPrice + step_i * stepInCurrency;
             while (next_tick < maxPriceThreshold)
             {
                 DrawPriceTick(next_tick);
                 step_i++;
-                next_tick = theMostRoundPrice + step_i * stepInRubles;
+                next_tick = theMostRoundPrice + step_i * stepInCurrency;
             }
 
             step_i = 1;
-            next_tick = theMostRoundPrice - step_i * stepInRubles;
+            next_tick = theMostRoundPrice - step_i * stepInCurrency;
             while (next_tick > minPriceThreshold)
             {
                 DrawPriceTick(next_tick);
                 step_i++;
-                next_tick = theMostRoundPrice - step_i * stepInRubles;
+                next_tick = theMostRoundPrice - step_i * stepInCurrency;
             }
 
             // Горизонтальные линии на всю ширину разделяющая и окаймляющая панели времени и даты:

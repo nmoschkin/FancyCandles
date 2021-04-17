@@ -847,8 +847,8 @@ namespace FancyCandles
         static void OnPriceTickFontSizeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             CandleChart thisCandleChart = obj as CandleChart;
-            thisCandleChart?.OnPropertyChanged("PriceAxisWidth");
-            thisCandleChart?.OnPropertyChanged("PriceTickTextHeight");
+            thisCandleChart?.OnPropertyChanged(nameof(PriceAxisWidth));
+            thisCandleChart?.OnPropertyChanged(nameof(PriceTickTextHeight));
         }
 
         ///<summary>Gets the default value for the <see cref="PriceTickFontSize">PriceTickFontSize</see> property.</summary>
@@ -920,7 +920,7 @@ namespace FancyCandles
                 if (value == maxNumberOfCharsInPrice) return;
                 maxNumberOfCharsInPrice = value;
                 OnPropertyChanged();
-                OnPropertyChanged("PriceAxisWidth");
+                OnPropertyChanged(nameof(PriceAxisWidth));
             }
         }
 
@@ -982,7 +982,7 @@ namespace FancyCandles
         static void OnTimeTickFontSizeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             CandleChart thisCandleChart = obj as CandleChart;
-            thisCandleChart?.OnPropertyChanged("TimeAxisHeight");
+            thisCandleChart?.OnPropertyChanged(nameof(TimeAxisHeight));
         }
 
         ///<summary>Gets the default value for the <see cref="TimeTickFontSize">TimeTickFontSize</see> property.</summary>
@@ -1210,6 +1210,52 @@ namespace FancyCandles
         ///<value>The default value for the <see cref="IsCrossLinesVisible"/> property: <c>true</c>.</value>
         public static bool DefaultIsCrossPriceVisible { get { return true; } }
         //----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+        public double? RealTimeValue
+        {
+            get { return (double?)GetValue(RealTimeValueProperty); }
+            set { SetValue(RealTimeValueProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for RealTimeValue.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RealTimeValueProperty =
+            DependencyProperty.Register("RealTimeValue", typeof(double?), typeof(CandleChart), new PropertyMetadata(null));
+
+
+
+        /// <summary>
+        /// Gets or sets the padding for the price in the cross price value.
+        /// </summary>
+        public Thickness CrossPricePadding
+        {
+            get { return (Thickness)GetValue(CrossPricePaddingProperty); }
+            set { SetValue(CrossPricePaddingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CrossPricePadding.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CrossPricePaddingProperty =
+            DependencyProperty.Register("CrossPricePadding", typeof(Thickness), typeof(CandleChart), new PropertyMetadata(new Thickness(2)));
+
+
+
+        /// <summary>
+        /// Gets or sets the number format for the cross price.
+        /// </summary>
+        public string CrossPriceFormat
+        {
+            get { return (string)GetValue(CrossPriceFormatProperty); }
+            set { SetValue(CrossPriceFormatProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CrossPriceFormat.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CrossPriceFormatProperty =
+            DependencyProperty.Register("CrossPriceFormat", typeof(string), typeof(CandleChart), new PropertyMetadata("#,##0.##"));
+
+
+
         /// <summary>Gets or sets the foreground for the price (or volume) label of the cross.</summary>
         ///<value>The foreground for the price or volume label of the cross. The default is determined by the <see cref="DefaultCrossPriceForeground"/>values.</value>
         ///<remarks>

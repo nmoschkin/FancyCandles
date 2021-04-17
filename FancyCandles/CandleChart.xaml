@@ -355,6 +355,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             VerticalAlignment="Stretch"
+            AxisTickColor="{Binding Path=AxisTickColor, Mode=OneWay}"
             ChartBottomMargin="{Binding Path=VolumeHistogramBottomMargin, Mode=OneWay}"
             ChartTopMargin="{Binding Path=VolumeHistogramTopMargin, Mode=OneWay}"
             GapBetweenTickLabels="{Binding Path=GapBetweenPriceTickLabels, Mode=OneWay}"
@@ -423,6 +424,7 @@
                         ElementName="priceChartContainer"
                         Mode="OneWay"
                         Path="IsMouseOver" />
+                    <Binding Mode="OneWay" Path="RealTimeValue" />
                 </MultiBinding>
             </Border.Visibility>
 
@@ -430,10 +432,19 @@
                 <MultiBinding Converter="{StaticResource crossPriceMarginConverter}">
                     <Binding Mode="OneWay" Path="CurrentMousePosition" />
                     <Binding Mode="OneWay" Path="PriceTickTextHeight" />
+                    <Binding
+                        ElementName="priceChartContainer"
+                        Mode="OneWay"
+                        Path="ActualHeight" />
+                    <Binding Mode="OneWay" Path="VisibleCandlesExtremums" />
+                    <Binding Mode="OneWay" Path="PriceChartTopMargin" />
+                    <Binding Mode="OneWay" Path="PriceChartBottomMargin" />
+                    <Binding Mode="OneWay" Path="RealTimeValue" />
+                    <Binding Mode="OneWay" Path="IsMouseOver" />
                 </MultiBinding>
             </Border.Margin>
 
-            <TextBlock Foreground="{Binding CrossPriceForeground, Mode=OneWay}">
+            <TextBlock Padding="{Binding CrossPricePadding, Mode=OneWay}" Foreground="{Binding CrossPriceForeground, Mode=OneWay}">
                 <TextBlock.Text>
                     <MultiBinding Converter="{StaticResource crossPriceValueConverter}">
                         <Binding Mode="OneWay" Path="CurrentMousePosition" />
@@ -445,6 +456,9 @@
                         <Binding Mode="OneWay" Path="PriceChartTopMargin" />
                         <Binding Mode="OneWay" Path="PriceChartBottomMargin" />
                         <Binding Mode="OneWay" Path="MaxNumberOfDigitsAfterPointInPrice" />
+                        <Binding Mode="OneWay" Path="CrossPriceFormat" />
+                        <Binding Mode="OneWay" Path="RealTimeValue" />
+                        <Binding Mode="OneWay" Path="IsMouseOver" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
