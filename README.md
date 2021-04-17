@@ -5,7 +5,7 @@ Added:
  - Number formatting options for price and volume.
  - Changed volume value to double value.
   
-Nathaniel Moschkin
+Nathaniel Moschkin - 2021-04-17
   
 # ![candlestick chart control](https://raw.githubusercontent.com/gellerda/FancyCandles/master/FancyCandles/icon.png) FancyCandles
 
