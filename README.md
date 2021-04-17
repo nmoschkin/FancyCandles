@@ -4,7 +4,9 @@ Added:
 
  - Number formatting options for price and volume.
  - Changed volume value to double value.
-
+  
+Nathaniel Moschkin
+  
 # ![candlestick chart control](https://raw.githubusercontent.com/gellerda/FancyCandles/master/FancyCandles/icon.png) FancyCandles
 
 FancyCandles is a WPF library that lets you add professional candlestick charts to your applications. A wide variety of settings are available for fine tuning. Traditionally candlesticks are used for visualizing a price history of financial instruments - stocks, currency pairs or futures. But you can utilize candlestick charts for plotting any time series converted to OHLC format (Open, High, Low, Close).
