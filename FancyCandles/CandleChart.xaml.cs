@@ -1444,6 +1444,10 @@ namespace FancyCandles
 
             if (thisCandleChart.IsLoaded)
             {
+                if (e.NewValue == null)
+                {
+                    thisCandleChart.VisibleCandlesRange = new IntRange();
+                }
                 thisCandleChart.ReCalc_TimeFrame();
                 thisCandleChart.ReCalc_MaxNumberOfCharsInPrice();
                 thisCandleChart.ReCalc_MaxNumberOfDigitsAfterPointInPrice();
@@ -1551,6 +1555,8 @@ namespace FancyCandles
 
         void ReCalc_VisibleCandlesExtremums()
         {
+            if (CandlesSource == null || CandlesSource.Count == 0) return;
+
             int end_i = VisibleCandlesRange.Start_i + VisibleCandlesRange.Count - 1;
             double maxH = double.MinValue;
             double minL = double.MaxValue;
@@ -1594,9 +1600,9 @@ namespace FancyCandles
         /// <summary>Identifies the <see cref="VisibleCandlesRange"/> dependency property.</summary>
         /// <value><see cref="DependencyProperty"/></value>
         public static readonly DependencyProperty VisibleCandlesRangeProperty =
-            DependencyProperty.Register("VisibleCandlesRange", typeof(IntRange), typeof(CandleChart), new PropertyMetadata(IntRange.Undefined, OnVisibleCanlesRangeChanged, CoerceVisibleCandlesRange));
+            DependencyProperty.Register("VisibleCandlesRange", typeof(IntRange), typeof(CandleChart), new PropertyMetadata(IntRange.Undefined, OnVisibleCandlesRangeChange, CoerceVisibleCandlesRange));
 
-        static void OnVisibleCanlesRangeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        static void OnVisibleCandlesRangeChange(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             CandleChart thisCandleChart = (CandleChart)obj;
             if (thisCandleChart.IsLoaded)
@@ -1616,6 +1622,8 @@ namespace FancyCandles
             // А это обычная ситуация:
             else
             {
+                if (thisCandleChart.CandlesSource == null) return new IntRange(0, 0);
+
                 int newVisibleCandlesStart_i = Math.Max(0, newValue.Start_i);
                 int newVisibleCandlesEnd_i = Math.Min(thisCandleChart.CandlesSource.Count - 1, newValue.Start_i + Math.Max(1, newValue.Count) - 1);
                 int maxVisibleCandlesCount = thisCandleChart.MaxVisibleCandlesCount;
@@ -1657,6 +1665,8 @@ namespace FancyCandles
         ///<param name="visibleCandlesRangeCenter">Central visible candle should have its <c>t</c> property equal to this parameter (or close to it as much as possible).</param>
         public void SetVisibleCandlesRangeCenter(DateTime visibleCandlesRangeCenter)
         {
+            if (CandlesSource == null || CandlesSource.Count == 0) return;
+
             ICandle cndl = CandlesSource[VisibleCandlesRange.Count / 2];
             if (visibleCandlesRangeCenter < cndl.t) //MyDateAndTime.YYMMDDHHMM_to_Datetime(cndl.YYMMDD, cndl.HHMM))
             {
