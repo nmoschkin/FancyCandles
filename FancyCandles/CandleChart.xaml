@@ -50,6 +50,8 @@
         <local:BrushToColorConverter x:Key="brushToColorConverter" />
         <local:CandleDrawingParametersConverter x:Key="candleDrawingParametersConverter" />
 
+        <local:CrossPriceColorConverter x:Key="PriceColorConverter" />
+
         <Style x:Key="rowSpanPriceChartIfVolumeDisabled">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsVolumePanelVisible}" Value="False">
@@ -412,10 +414,24 @@
             Grid.Column="1"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Background="{Binding CrossPriceBackground, Mode=OneWay}"
             BorderBrush="{Binding CrossPriceForeground, Mode=OneWay}"
             BorderThickness="1"
             Style="{StaticResource rowSpanPriceChartIfVolumeDisabled}">
+
+            <Border.Background>
+                <MultiBinding Converter="{StaticResource PriceColorConverter}">
+                    <Binding Path="CrossPriceBackground" />
+                    <Binding Path="BearishCandleFill" />
+                    <Binding Path="BullishCandleFill" />
+                    <Binding Path="CandlesSource" />
+                    <Binding
+                        ElementName="priceChartContainer"
+                        Mode="OneWay"
+                        Path="IsMouseOver" />
+                    <Binding Path="RealTimeValue" />
+                </MultiBinding>
+
+            </Border.Background>
 
             <Border.Visibility>
                 <MultiBinding Converter="{StaticResource squareBoolToVisibilityConverter}">

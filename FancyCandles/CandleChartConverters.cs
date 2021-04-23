@@ -18,13 +18,44 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace FancyCandles
 {
+
+    class CrossPriceColorConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            Brush std = (Brush)values[0];
+            Brush bearbr = (Brush)values[1];
+            Brush bullbr = (Brush)values[2];
+            
+            var candles = (ObservableCollection<ICandle>)values[3];
+            bool mo = (bool)values[4];
+
+            if (mo || candles == null || candles.Count == 0) return std;
+
+            else
+            {
+                var lc = candles.LastOrDefault();
+
+                if (lc.O > lc.C) return bearbr;
+                else return bullbr;
+            }
+
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
     //*******************************************************************************************************************************************************************
     class CrossPriceMarginConverter : IMultiValueConverter
     {
@@ -54,18 +85,18 @@ namespace FancyCandles
                     var rt = (double)rtv;
                     var cc = (chartTopMargin / 2) + ((ChartAreaHeight - chartTopMargin - chartBottomMargin) * (1 - ((Math.Max(rt, priceLow) - Math.Min(rt, priceLow)) / (priceHigh - priceLow))));
 
-                    return new Thickness(0, cc - priceTickTextHeight / 2.0, 0, 0);
+                    return new Thickness(0, Math.Round(cc - priceTickTextHeight / 2.0), 0, 0);
 
                 }
                 else
                 {
-                    return new Thickness(0, currentMousePosition.Y - priceTickTextHeight / 2.0, 0, 0);
+                    return new Thickness(0, Math.Round(currentMousePosition.Y) - priceTickTextHeight / 2.0, 0, 0);
                 }
 
             }
             else
             {
-                return new Thickness(0, currentMousePosition.Y - priceTickTextHeight / 2.0, 0, 0);
+                return new Thickness(0, Math.Round(currentMousePosition.Y) - priceTickTextHeight / 2.0, 0, 0);
             }
         }
 

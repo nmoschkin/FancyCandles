@@ -1436,9 +1436,11 @@ namespace FancyCandles
                 old_obsCollection.CollectionChanged -= thisCandleChart.OnCandlesSourceCollectionChanged;
             }
 
+            ObservableCollection<ICandle> new_obsCollection = null;
+
             if (e.NewValue != null)
             {
-                ObservableCollection<ICandle> new_obsCollection = (ObservableCollection<ICandle>)e.NewValue;
+                new_obsCollection = (ObservableCollection<ICandle>)e.NewValue;
                 new_obsCollection.CollectionChanged += thisCandleChart.OnCandlesSourceCollectionChanged;
             }
 
@@ -1448,6 +1450,7 @@ namespace FancyCandles
                 {
                     thisCandleChart.VisibleCandlesRange = new IntRange();
                 }
+
                 thisCandleChart.ReCalc_TimeFrame();
                 thisCandleChart.ReCalc_MaxNumberOfCharsInPrice();
                 thisCandleChart.ReCalc_MaxNumberOfDigitsAfterPointInPrice();
