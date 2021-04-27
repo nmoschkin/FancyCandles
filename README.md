@@ -6,6 +6,7 @@ Added:
 
  - Number formatting options for price and volume.
  - Changed volume value to double value.
+ - Observable real-time price indicator.
   
 Nathaniel Moschkin - 2021-04-17
   
