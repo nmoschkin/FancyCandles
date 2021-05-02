@@ -13,11 +13,11 @@ Added:
  - Cleaned up mouse movement handling. 
  - Prettified and streamlined the window splitter.
   
-Nathaniel Moschkin - 2021-05-01
-
 <kbd><img src="docs/nmoschkin_improvements.png"/></kbd>
 
 
+Nathaniel Moschkin - 2021-05-01
+---
 
 # ![candlestick chart control](https://raw.githubusercontent.com/gellerda/FancyCandles/master/FancyCandles/icon.png) FancyCandles
 
