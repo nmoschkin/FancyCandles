@@ -1,3 +1,6 @@
+nmoschkin Fork
+---
+
 This is a fork of the main project.  I'm adding things as I go.
 
 Updated project for .NET 5.
@@ -15,8 +18,9 @@ Added:
   
 <kbd><img src="docs/nmoschkin_improvements.png"/></kbd>
 
+- Nathaniel Moschkin - 2021-05-01
 
-Nathaniel Moschkin - 2021-05-01
+Original Documentation
 ---
 
 # ![candlestick chart control](https://raw.githubusercontent.com/gellerda/FancyCandles/master/FancyCandles/icon.png) FancyCandles
