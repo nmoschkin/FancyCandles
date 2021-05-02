@@ -16,9 +16,11 @@ Added:
  - Cleaned up mouse movement handling. 
  - Prettified and streamlined the window splitter.
   
+__Screenshot of improvements:__
+
 <kbd><img src="docs/nmoschkin_improvements.png"/></kbd>
 
-- Nathaniel Moschkin - 2021-05-01
+_(Nathaniel Moschkin - 2021-05-01)_
 
 Original Documentation
 ---
