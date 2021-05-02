@@ -11,6 +11,7 @@ Added:
  - Restyled the ScrollBar control template to be pretty.
  - Cleaned up Drawing of lines on half-pixel boundaries.
  - Cleaned up mouse movement handling. 
+ - Prettified and streamlined the window splitter.
   
 Nathaniel Moschkin - 2021-04-17
   
