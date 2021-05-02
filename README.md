@@ -7,8 +7,13 @@ Added:
  - Number formatting options for price and volume.
  - Changed volume value to double value.
  - Observable real-time price indicator.
+ - SubLegend text area with configurable style.
+ - Restyled the ScrollBar control template to be pretty.
+ - Cleaned up Drawing of lines on half-pixel boundaries.
+ - Cleaned up mouse movement handling. 
+ - Prettified and streamlined the window splitter.
   
-Nathaniel Moschkin - 2021-04-17
+Nathaniel Moschkin - 2021-05-01
   
 # ![candlestick chart control](https://raw.githubusercontent.com/gellerda/FancyCandles/master/FancyCandles/icon.png) FancyCandles
 
