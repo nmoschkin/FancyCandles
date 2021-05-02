@@ -30,44 +30,59 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <local:FirstCandleMaxIndexConverter x:Key="firstCandleMaxIndexConverter" />
-        <local:TopBottomMarginConverter x:Key="topBottomMarginConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="FancyScrollTemplate.xaml" />
 
-        <local:CrossPriceMarginConverter x:Key="crossPriceMarginConverter" />
-        <local:CrossPriceValueConverter x:Key="crossPriceValueConverter" />
-        <local:CrossVolumeConverter x:Key="crossVolumeConverter" />
+                <ResourceDictionary>
 
-        <local:IntRange_Start_i_Converter x:Key="intRange_Start_i_Converter" />
-        <local:IntRange_Count_Converter x:Key="intRange_Count_Converter" />
+                    <local:FirstCandleMaxIndexConverter x:Key="firstCandleMaxIndexConverter" />
+                    <local:TopBottomMarginConverter x:Key="topBottomMarginConverter" />
 
-        <local:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
-        <local:NotBoolToVisibilityConverter x:Key="notBoolToVisibilityConverter" />
-        <local:SquareBoolToVisibilityConverter x:Key="squareBoolToVisibilityConverter" />
-        <local:VerticalCrossLineVisibilityConverter x:Key="verticalCrossLineVisibilityConverter" />
-        <local:IntRangeToPointConverter x:Key="intRangeToPointConverter" />
-        <local:CandleExtremumsToPriceExtremumsPointConverter x:Key="candleExtremumsToPriceExtremumsPointConverter" />
-        <local:CandleDrawingParametersToPointConverter x:Key="candleDrawingParametersToPointConverter" />
-        <local:BrushToColorConverter x:Key="brushToColorConverter" />
-        <local:CandleDrawingParametersConverter x:Key="candleDrawingParametersConverter" />
+                    <local:CrossPriceMarginConverter x:Key="crossPriceMarginConverter" />
+                    <local:CrossPriceValueConverter x:Key="crossPriceValueConverter" />
+                    <local:CrossVolumeConverter x:Key="crossVolumeConverter" />
 
-        <local:CrossPriceColorConverter x:Key="PriceColorConverter" />
+                    <local:IntRange_Start_i_Converter x:Key="intRange_Start_i_Converter" />
+                    <local:IntRange_Count_Converter x:Key="intRange_Count_Converter" />
 
-        <Style x:Key="rowSpanPriceChartIfVolumeDisabled">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsVolumePanelVisible}" Value="False">
-                    <Setter Property="Grid.RowSpan" Value="3" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+                    <local:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+                    <local:NotBoolToVisibilityConverter x:Key="notBoolToVisibilityConverter" />
+                    <local:SquareBoolToVisibilityConverter x:Key="squareBoolToVisibilityConverter" />
+                    <local:VerticalCrossLineVisibilityConverter x:Key="verticalCrossLineVisibilityConverter" />
+                    <local:IntRangeToPointConverter x:Key="intRangeToPointConverter" />
+                    <local:CandleExtremumsToPriceExtremumsPointConverter x:Key="candleExtremumsToPriceExtremumsPointConverter" />
+                    <local:CandleDrawingParametersToPointConverter x:Key="candleDrawingParametersToPointConverter" />
+                    <local:BrushToColorConverter x:Key="brushToColorConverter" />
+                    <local:CandleDrawingParametersConverter x:Key="candleDrawingParametersConverter" />
+
+                    <local:CrossPriceColorConverter x:Key="PriceColorConverter" />
+
+                    <Style x:Key="rowSpanPriceChartIfVolumeDisabled">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsVolumePanelVisible}" Value="False">
+                                <Setter Property="Grid.RowSpan" Value="3" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
     </UserControl.Resources>
 
-    <Grid Background="{Binding Path=Background, Mode=OneWay}" DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+
+    <Grid
+        Margin="0"
+        Background="{Binding Path=Background, Mode=OneWay}"
+        DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="4*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="{Binding Path=TimeAxisHeight, Mode=OneWay}" />
-            <RowDefinition Height="25" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -147,24 +162,42 @@
             </local:PriceChartElement>
 
             <!--  Легенда  -->
-            <TextBlock
-                Margin="{Binding LegendMargin, Mode=OneWay}"
+
+            <StackPanel
+                Margin="0"
                 HorizontalAlignment="{Binding LegendHorizontalAlignment, Mode=OneWay}"
                 VerticalAlignment="{Binding LegendVerticalAlignment, Mode=OneWay}"
-                FontFamily="{Binding LegendFontFamily, Mode=OneWay}"
-                FontSize="{Binding LegendFontSize, Mode=OneWay}"
-                FontStyle="{Binding LegendFontStyle, Mode=OneWay}"
-                FontWeight="{Binding LegendFontWeight, Mode=OneWay}"
-                Foreground="{Binding LegendForeground, Mode=OneWay}"
-                IsHitTestVisible="False"
-                Text="{Binding LegendText, Mode=OneWay}"
-                TextAlignment="Center" />
+                Orientation="Vertical">
+                <TextBlock
+                    Margin="{Binding LegendMargin, Mode=OneWay}"
+                    FontFamily="{Binding LegendFontFamily, Mode=OneWay}"
+                    FontSize="{Binding LegendFontSize, Mode=OneWay}"
+                    FontStyle="{Binding LegendFontStyle, Mode=OneWay}"
+                    FontWeight="{Binding LegendFontWeight, Mode=OneWay}"
+                    Foreground="{Binding LegendForeground, Mode=OneWay}"
+                    IsHitTestVisible="False"
+                    Text="{Binding LegendText, Mode=OneWay}"
+                    TextAlignment="{Binding LegendTextAlignment}" />
+
+                <TextBlock
+                    Margin="{Binding SubLegendMargin, Mode=OneWay}"
+                    FontFamily="{Binding SubLegendFontFamily, Mode=OneWay}"
+                    FontSize="{Binding SubLegendFontSize, Mode=OneWay}"
+                    FontStyle="{Binding SubLegendFontStyle, Mode=OneWay}"
+                    FontWeight="{Binding SubLegendFontWeight, Mode=OneWay}"
+                    Foreground="{Binding SubLegendForeground, Mode=OneWay}"
+                    IsHitTestVisible="False"
+                    Text="{Binding SubLegendText, Mode=OneWay}"
+                    TextAlignment="{Binding SubLegendTextAlignment}" />
+
+            </StackPanel>
 
             <!--  Горизонтальная линия перекрестия:  -->
             <Line
                 IsHitTestVisible="False"
                 RenderOptions.EdgeMode="Aliased"
                 Stroke="{Binding Path=CrossLinesBrush, Mode=OneWay}"
+                StrokeDashArray="{Binding CrossStrokeDashArray}"
                 StrokeThickness="1"
                 X1="0"
                 X2="{Binding ElementName=priceChartContainer, Path=ActualWidth, Mode=OneWay}"
@@ -186,6 +219,7 @@
                 IsHitTestVisible="False"
                 RenderOptions.EdgeMode="Aliased"
                 Stroke="{Binding Path=CrossLinesBrush, Mode=OneWay}"
+                StrokeDashArray="{Binding CrossStrokeDashArray}"
                 StrokeThickness="1"
                 X1="{Binding Path=CurrentMousePosition.X, Mode=OneWay}"
                 X2="{Binding RelativeSource={RelativeSource Mode=Self}, Path=X1, Mode=OneWay}"
@@ -216,6 +250,8 @@
             Height="3"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
+            Background="Transparent"
+            BorderThickness="0"
             ShowsPreview="False"
             Visibility="{Binding Path=IsVolumePanelVisible, Converter={StaticResource boolToVisibilityConverter}}" />
         <!--  ==============================================================================================================================================================  -->
@@ -290,6 +326,7 @@
                 IsHitTestVisible="False"
                 RenderOptions.EdgeMode="Aliased"
                 Stroke="{Binding Path=CrossLinesBrush, Mode=OneWay}"
+                StrokeDashArray="{Binding CrossStrokeDashArray}"
                 StrokeThickness="1"
                 X1="0"
                 X2="{Binding ElementName=volumeHistogramContainer, Path=ActualWidth, Mode=OneWay}"
@@ -311,6 +348,7 @@
                 IsHitTestVisible="False"
                 RenderOptions.EdgeMode="Aliased"
                 Stroke="{Binding Path=CrossLinesBrush, Mode=OneWay}"
+                StrokeDashArray="{Binding CrossStrokeDashArray}"
                 StrokeThickness="1"
                 X1="{Binding Path=CurrentMousePosition.X, Mode=OneWay}"
                 X2="{Binding RelativeSource={RelativeSource Mode=Self}, Path=X1, Mode=OneWay}"
@@ -376,6 +414,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Stretch"
+            AxisTickColor="{Binding AxisTickColor}"
             CandlesSource="{Binding Path=CandlesSource, Mode=OneWay}"
             GridlinesPen="{Binding Path=VerticalGridlinesPen, Mode=OneWay}"
             HideMinorGridlines="{Binding Path=HideMinorVerticalGridlines, Mode=OneWay}"
@@ -456,7 +495,10 @@
                     <Binding Mode="OneWay" Path="PriceChartTopMargin" />
                     <Binding Mode="OneWay" Path="PriceChartBottomMargin" />
                     <Binding Mode="OneWay" Path="RealTimeValue" />
-                    <Binding Mode="OneWay" Path="IsMouseOver" />
+                    <Binding
+                        ElementName="priceChartContainer"
+                        Mode="OneWay"
+                        Path="IsMouseOver" />
                 </MultiBinding>
             </Border.Margin>
 
@@ -474,7 +516,10 @@
                         <Binding Mode="OneWay" Path="MaxNumberOfDigitsAfterPointInPrice" />
                         <Binding Mode="OneWay" Path="CrossPriceFormat" />
                         <Binding Mode="OneWay" Path="RealTimeValue" />
-                        <Binding Mode="OneWay" Path="IsMouseOver" />
+                        <Binding
+                            ElementName="priceChartContainer"
+                            Mode="OneWay"
+                            Path="IsMouseOver" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
@@ -507,7 +552,7 @@
                 </MultiBinding>
             </Border.Margin>
 
-            <TextBlock Foreground="{Binding CrossPriceForeground, Mode=OneWay}">
+            <TextBlock Padding="{Binding CrossPricePadding, Mode=OneWay}" Foreground="{Binding CrossPriceForeground, Mode=OneWay}">
                 <TextBlock.Text>
                     <MultiBinding Converter="{StaticResource crossVolumeConverter}">
                         <Binding Mode="OneWay" Path="CurrentMousePosition" />
@@ -518,6 +563,7 @@
                         <Binding Mode="OneWay" Path="VisibleCandlesExtremums" />
                         <Binding Mode="OneWay" Path="VolumeHistogramTopMargin" />
                         <Binding Mode="OneWay" Path="VolumeHistogramBottomMargin" />
+                        <Binding Mode="OneWay" Path="CrossVolumeNumberFormat" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
@@ -529,6 +575,7 @@
             Grid.Column="0"
             Height="{Binding ElementName=thisUserControl, Path=ScrollBarHeight}"
             Margin="0,0,0,0"
+            Padding="0"
             Background="{Binding ElementName=thisUserControl, Path=ScrollBarBackground}"
             Minimum="0"
             Orientation="Horizontal"

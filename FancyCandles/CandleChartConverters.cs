@@ -80,7 +80,7 @@ namespace FancyCandles
                 double? rtv = values.Length > 6 ? (double?)values[6] : null;
                 bool mo = values.Length > 7 ? (bool)values[7] : true;
 
-                if (!mo && rtv != null)
+                if ((!mo || (currentMousePosition == new Point(0, 0))) && rtv != null)
                 {
                     var rt = (double)rtv;
                     var cc = (chartTopMargin / 2) + ((ChartAreaHeight - chartTopMargin - chartBottomMargin) * (1 - ((Math.Max(rt, priceLow) - Math.Min(rt, priceLow)) / (priceHigh - priceLow))));
@@ -132,7 +132,7 @@ namespace FancyCandles
 
             double price;
 
-            if (!mo && (rtv is double rt))
+            if ((!mo || currentMousePosition == new Point(0, 0)) && (rtv is double rt))
             {
                 price = rt;
             }
@@ -175,7 +175,19 @@ namespace FancyCandles
             CandleExtremums visibleCandlesExtremums = (CandleExtremums)values[2];
             double volumeHistogramTopMargin = (double)values[3];
             double volumeHistogramBottomMargin = (double)values[4];
-            return ((long)((visibleCandlesExtremums.VolumeHigh - (currentMousePosition.Y - volumeHistogramTopMargin) / (volumeHistogramHeight - volumeHistogramTopMargin - volumeHistogramBottomMargin) * visibleCandlesExtremums.VolumeHigh))).ToString();
+            string fmt = values.Length >= 6 ? (string)values[5] : null;
+
+            long calcVal = ((long)((visibleCandlesExtremums.VolumeHigh - (currentMousePosition.Y - volumeHistogramTopMargin) / (volumeHistogramHeight - volumeHistogramTopMargin - volumeHistogramBottomMargin) * visibleCandlesExtremums.VolumeHigh)));
+
+            if (!string.IsNullOrEmpty(fmt))
+            {
+                return calcVal.ToString(fmt);
+            }
+            else
+            {
+                return calcVal.ToString();
+            }
+
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

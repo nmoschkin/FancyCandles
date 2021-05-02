@@ -375,6 +375,7 @@ namespace FancyCandles
             {
                 FormattedText dayTickFormattedText = new FormattedText(CandlesSource[day_csi].t.Day.ToString(), CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Verdana"), TimeTickFontSize, AxisTickColor, VisualTreeHelper.GetDpi(this).PixelsPerDip);
                 double x = CandleWidthAndGap.Width / 2.0 + (day_csi - VisibleCandlesRange.Start_i) * (CandleWidthAndGap.Width + CandleWidthAndGap.Gap);
+                x = Math.Round(x);
                 drawingContext.DrawText(dayTickFormattedText, new Point(x + 2, topTimePanelY));
                 drawingContext.DrawLine(pen, new Point(x, topTimePanelY), new Point(x, isMonthStart ? centerTimePanelY : smallMarkLineY));
 

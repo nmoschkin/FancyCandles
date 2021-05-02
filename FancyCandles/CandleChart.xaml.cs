@@ -162,6 +162,17 @@ namespace FancyCandles
         //----------------------------------------------------------------------------------------------------------------------------------
         #region LEGEND PROPERTIES *******************************************************************************************************************************
 
+
+        public TextAlignment LegendTextAlignment
+        {
+            get { return (TextAlignment)GetValue(LegendTextAlignmentProperty); }
+            set { SetValue(LegendTextAlignmentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for LegendTextAlignment.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LegendTextAlignmentProperty =
+            DependencyProperty.Register("LegendTextAlignment", typeof(TextAlignment), typeof(CandleChart), new PropertyMetadata(TextAlignment.Center));
+
         ///<summary>Gets or sets the text of the legend.</summary>
         ///<value>The text of the legend. The default is determined by the <see cref="DefaultLegendText"/> value.</value>
         ///<remarks>
@@ -377,6 +388,189 @@ namespace FancyCandles
         ///<value>The default value for the LegendMargin property: <c>(10, 0, 10, 0)</c>.</value>
         ///<seealso cref = "LegendMargin">LegendMargin</seealso>
         public static Thickness DefaultLegendMargin { get { return new Thickness(10, 0, 10, 0); } }
+
+        #endregion **********************************************************************************************************************************************
+        //----------------------------------------------------------------------------------------------------------------------------------
+        #region SUBLEGEND PROPERTIES *******************************************************************************************************************************
+
+
+
+        public TextAlignment SubLegendTextAlignment
+        {
+            get { return (TextAlignment)GetValue(SubLegendTextAlignmentProperty); }
+            set { SetValue(SubLegendTextAlignmentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SubLegendTextAlignment.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SubLegendTextAlignmentProperty =
+            DependencyProperty.Register("SubLegendTextAlignment", typeof(TextAlignment), typeof(CandleChart), new PropertyMetadata(TextAlignment.Center));
+
+
+
+        ///<summary>Gets or sets the text of the legend.</summary>
+        ///<value>The text of the legend. The default is determined by the <see cref="DefaultSubLegendText"/> value.</value>
+        ///<remarks>
+        ///The legend could contain any text, describing this chart. Usually it contains a ticker symbol (a name of the security) and a timeframe, for example: <em>"AAPL"</em>, <em>"GOOGL, M5"</em>, <em>"BTC/USD, D"</em> etc.
+        ///<h3>Dependency Property Information</h3>
+        ///<table border="1" frame="hsides" rules="rows" style="margin: 0 0 10 20"> 
+        ///<tr><td>Identifier field</td><td><see cref="SubLegendTextProperty"/></td></tr> 
+        ///<tr><td>Metadata properties set to <c>True</c></td><td>-</td></tr> </table>
+        ///</remarks>
+        ///<seealso cref = "DefaultSubLegendText">DefaultSubLegendText</seealso>
+        public string SubLegendText
+        {
+            get { return (string)GetValue(SubLegendTextProperty); }
+            set { SetValue(SubLegendTextProperty, value); }
+        }
+        /// <summary>Identifies the <see cref="SubLegendText"/> dependency property.</summary>
+        /// <value><see cref="DependencyProperty"/></value>
+        public static readonly DependencyProperty SubLegendTextProperty =
+            DependencyProperty.Register("SubLegendText", typeof(string), typeof(CandleChart), new PropertyMetadata(DefaultSubLegendText));
+
+        ///<summary>Gets the default value for the SubLegendText property.</summary>
+        ///<value>The default value for the SubLegendText property: <c>"DefaultSubLegend"</c>.</value>
+        ///<seealso cref = "SubLegendText">SubLegendText</seealso>
+        public static string DefaultSubLegendText { get { return "DefaultSubLegend"; } }
+        //----------------------------------------------------------------------------------------------------------------------------------
+        /// <summary>Gets or sets the font family of the legend.</summary>
+        ///<value>The font family of the legend. The default value is equal to the default value of the <see cref="TextBlock.FontFamilyProperty">TextBlock.FontFamilyProperty</see>.</value>
+        ///<remarks>
+        ///<h3>Dependency Property Information</h3>
+        ///<table border="1" frame="hsides" rules="rows" style="margin: 0 0 10 20"> 
+        ///<tr><td>Identifier field</td><td><see cref="SubLegendFontFamilyProperty"/></td></tr> 
+        ///<tr><td>Metadata properties set to <c>True</c></td><td>-</td></tr> </table>
+        ///</remarks>
+        public FontFamily SubLegendFontFamily
+        {
+            get { return (FontFamily)GetValue(SubLegendFontFamilyProperty); }
+            set { SetValue(SubLegendFontFamilyProperty, value); }
+        }
+        /// <summary>Identifies the <see cref="SubLegendFontFamily"/> dependency property.</summary>
+        /// <value><see cref="DependencyProperty"/></value>
+        public static readonly DependencyProperty SubLegendFontFamilyProperty =
+            DependencyProperty.Register("SubLegendFontFamily", typeof(FontFamily), typeof(CandleChart), new PropertyMetadata(TextBlock.FontFamilyProperty.DefaultMetadata.DefaultValue));
+        //----------------------------------------------------------------------------------------------------------------------------------
+        /// <summary>Gets or sets the font size of the legend. The legend locates inside the price chart area.</summary>
+        ///<value>The font size of the legend. The default is determined by the <see cref="DefaultSubLegendFontSize"/> value.</value>
+        ///<remarks>
+        ///<h3>Dependency Property Information</h3>
+        ///<table border="1" frame="hsides" rules="rows" style="margin: 0 0 10 20"> 
+        ///<tr><td>Identifier field</td><td><see cref="SubLegendFontSizeProperty"/></td></tr> 
+        ///<tr><td>Metadata properties set to <c>True</c></td><td>-</td></tr> </table>
+        ///</remarks>
+        ///<seealso cref = "DefaultSubLegendFontSize">DefaultSubLegendFontSize</seealso>
+        public double SubLegendFontSize
+        {
+            get { return (double)GetValue(SubLegendFontSizeProperty); }
+            set { SetValue(SubLegendFontSizeProperty, value); }
+        }
+        /// <summary>Identifies the <see cref="SubLegendFontSize">SubLegendFontSize</see> dependency property.</summary>
+        /// <value><see cref="DependencyProperty"/></value>
+        public static readonly DependencyProperty SubLegendFontSizeProperty =
+            DependencyProperty.Register("SubLegendFontSize", typeof(double), typeof(CandleChart), new PropertyMetadata(DefaultSubLegendFontSize));
+
+        ///<summary>Gets the default value for the SubLegendFontSize property.</summary>
+        ///<value>The default value for the SubLegendFontSize property: <c>30.0</c>.</value>
+        ///<seealso cref = "SubLegendFontSize">SubLegendFontSize</seealso>
+        public static double DefaultSubLegendFontSize { get { return 30.0; } }
+        //----------------------------------------------------------------------------------------------------------------------------------
+        /// <summary>Gets or sets the font style of the legend.</summary>
+        ///<value>The font style of the legend. The default is determined by the <see cref="DefaultSubLegendFontStyle"/> value.</value>
+        ///<remarks>
+        ///<h3>Dependency Property Information</h3>
+        ///<table border="1" frame="hsides" rules="rows" style="margin: 0 0 10 20"> 
+        ///<tr><td>Identifier field</td><td><see cref="SubLegendFontStyleProperty"/></td></tr> 
+        ///<tr><td>Metadata properties set to <c>True</c></td><td>-</td></tr> </table>
+        ///</remarks>
+        ///<seealso cref = "DefaultSubLegendFontStyle">DefaultSubLegendFontStyle</seealso>
+        public FontStyle SubLegendFontStyle
+        {
+            get { return (FontStyle)GetValue(SubLegendFontStyleProperty); }
+            set { SetValue(SubLegendFontStyleProperty, value); }
+        }
+        /// <summary>Identifies the <see cref="SubLegendFontStyle"/> dependency property.</summary>
+        /// <value><see cref="DependencyProperty"/></value>
+        public static readonly DependencyProperty SubLegendFontStyleProperty =
+            DependencyProperty.Register("SubLegendFontStyle", typeof(FontStyle), typeof(CandleChart), new PropertyMetadata(DefaultSubLegendFontStyle));
+
+        ///<summary>Gets the default value for the SubLegendFontStyle property.</summary>
+        ///<value>The default value for the SubLegendFontStyle property: <c>FontStyles.Normal</c>.</value>
+        ///<seealso cref = "SubLegendFontStyle">SubLegendFontStyle</seealso>
+        public static FontStyle DefaultSubLegendFontStyle { get { return FontStyles.Normal; } }
+        //----------------------------------------------------------------------------------------------------------------------------------
+        /// <summary>Gets or sets the font weight of the legend. The legend locates inside the price chart area.</summary>
+        /// <value>The font weight of the legend. The default is determined by the <see cref="DefaultSubLegendFontWeight"/> value.</value>
+        ///<remarks>
+        ///<h3>Dependency Property Information</h3>
+        ///<table border="1" frame="hsides" rules="rows" style="margin: 0 0 10 20"> 
+        ///<tr><td>Identifier field</td><td><see cref="SubLegendFontWeightProperty"/></td></tr> 
+        ///<tr><td>Metadata properties set to <c>True</c></td><td>-</td></tr> </table>
+        ///</remarks>
+        /// <seealso cref = "DefaultSubLegendFontWeight">DefaultSubLegendFontWeight</seealso>
+        public FontWeight SubLegendFontWeight
+        {
+            get { return (FontWeight)GetValue(SubLegendFontWeightProperty); }
+            set { SetValue(SubLegendFontWeightProperty, value); }
+        }
+        /// <summary>Identifies the <see cref="SubLegendFontWeight"/> dependency property.</summary>
+        /// <value><see cref="DependencyProperty"/></value>
+        public static readonly DependencyProperty SubLegendFontWeightProperty =
+            DependencyProperty.Register("SubLegendFontWeight", typeof(FontWeight), typeof(CandleChart), new PropertyMetadata(DefaultSubLegendFontWeight));
+
+        ///<summary>Gets the default value for the SubLegendFontWeight property.</summary>
+        ///<value>The default value for the SubLegendFontWeight property: <c>FontWeights.Bold</c>.</value>
+        ///<seealso cref = "SubLegendFontWeight">SubLegendFontWeight</seealso>
+        public static FontWeight DefaultSubLegendFontWeight { get { return FontWeights.Bold; } }
+        //----------------------------------------------------------------------------------------------------------------------------------
+        /// <summary>Gets or sets the foreground of the legend. The legend locates inside the price chart area.</summary>
+        /// <value>The foreground of the legend. The default is determined by the <see cref="DefaultSubLegendForeground"/> value.</value>
+        ///<remarks>
+        ///<h3>Dependency Property Information</h3>
+        ///<table border="1" frame="hsides" rules="rows" style="margin: 0 0 10 20"> 
+        ///<tr><td>Identifier field</td><td><see cref="SubLegendForegroundProperty"/></td></tr> 
+        ///<tr><td>Metadata properties set to <c>True</c></td><td>-</td></tr> </table>
+        ///</remarks>
+        /// <seealso cref = "DefaultSubLegendForeground">DefaultSubLegendForeground</seealso>
+        public Brush SubLegendForeground
+        {
+            get { return (Brush)GetValue(SubLegendForegroundProperty); }
+            set { SetValue(SubLegendForegroundProperty, value); }
+        }
+        /// <summary>Identifies the <see cref="SubLegendForeground"/> dependency property.</summary>
+        /// <value><see cref="DependencyProperty"/></value>
+        public static readonly DependencyProperty SubLegendForegroundProperty =
+            DependencyProperty.Register("SubLegendForeground", typeof(Brush), typeof(CandleChart), new PropertyMetadata(DefaultSubLegendForeground));
+
+        ///<summary>Gets the default value for the SubLegendForeground property.</summary>
+        ///<value>The default value for the SubLegendForeground property: <c>#3C000000</c>.</value>
+        ///<seealso cref = "SubLegendForeground">SubLegendForeground</seealso>
+        public static Brush DefaultSubLegendForeground { get { return (Brush)(new SolidColorBrush(Color.FromArgb(60, 0, 0, 0))).GetCurrentValueAsFrozen(); } } // #3C000000
+                                                                                                                                                            //----------------------------------------------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------------------------------------
+        /// <summary>Gets or sets the margins for the legend. The legend locates inside the price chart area.</summary>
+        /// <value>The legend margin. The default is determined by the <see cref="DefaultSubLegendMargin"/> value.</value>
+        ///<remarks>
+        ///The legend locates inside the price chart area and could be horizontally and vertically aligned. It could contain any text, describing this chart. Usually it contains a ticker symbol (a name of the security) and a timeframe, for example: <em>"AAPL"</em>, <em>"GOOGL, M5"</em>, <em>"BTC/USD, D"</em> etc.
+        ///<h3>Dependency Property Information</h3>
+        ///<table border="1" frame="hsides" rules="rows" style="margin: 0 0 10 20"> 
+        ///<tr><td>Identifier field</td><td><see cref="SubLegendMarginProperty"/></td></tr> 
+        ///<tr><td>Metadata properties set to <c>True</c></td><td>-</td></tr> </table>
+        ///</remarks>
+        /// <seealso cref = "DefaultSubLegendMargin">DefaultSubLegendMargin</seealso>
+        public Thickness SubLegendMargin
+        {
+            get { return (Thickness)GetValue(SubLegendMarginProperty); }
+            set { SetValue(SubLegendMarginProperty, value); }
+        }
+        /// <summary>Identifies the <see cref="SubLegendMargin"/> dependency property.</summary>
+        /// <value><see cref="DependencyProperty"/></value>
+        public static readonly DependencyProperty SubLegendMarginProperty =
+            DependencyProperty.Register("SubLegendMargin", typeof(Thickness), typeof(CandleChart), new PropertyMetadata(DefaultSubLegendMargin));
+
+        ///<summary>Gets the default value for the SubLegendMargin property.</summary>
+        ///<value>The default value for the SubLegendMargin property: <c>(10, 0, 10, 0)</c>.</value>
+        ///<seealso cref = "SubLegendMargin">SubLegendMargin</seealso>
+        public static Thickness DefaultSubLegendMargin { get { return new Thickness(10, 0, 10, 0); } }
 
         #endregion **********************************************************************************************************************************************
         //----------------------------------------------------------------------------------------------------------------------------------
@@ -925,6 +1119,18 @@ namespace FancyCandles
         }
 
         /// <summary>
+        /// Gets or sets the string format to use for cross volume.
+        /// </summary>
+        public string CrossVolumeNumberFormat
+        {
+            get { return (string)GetValue(CrossVolumeNumberFormatProperty); }
+            set { SetValue(CrossVolumeNumberFormatProperty, value); }
+        }
+        public static readonly DependencyProperty CrossVolumeNumberFormatProperty
+            = DependencyProperty.Register("CrossVolumeNumberFormat", typeof(string), typeof(CandleChart), new FrameworkPropertyMetadata("#,##0.00##"));
+
+
+        /// <summary>
         /// Gets or sets the string format to use for volume.
         /// </summary>
         public string VolumeNumberFormat
@@ -933,7 +1139,7 @@ namespace FancyCandles
             set { SetValue(VolumeNumberFormatProperty, value); }
         }
         public static readonly DependencyProperty VolumeNumberFormatProperty
-            = DependencyProperty.Register("VolumeNumberFormat", typeof(string), typeof(VolumeTicksElement), new FrameworkPropertyMetadata("#,##0.00##"));
+            = DependencyProperty.Register("VolumeNumberFormat", typeof(string), typeof(CandleChart), new FrameworkPropertyMetadata("#,##0.00##"));
         //---------------------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
@@ -1161,6 +1367,23 @@ namespace FancyCandles
         ///<summary>Gets the default value for the CrossLinesBrush property.</summary>
         ///<value>The default value for the <see cref="CrossLinesBrush"/> property: <c>#1E000A97</c>.</value>
         public static Brush DefaultCrossLinesBrush { get { return (Brush)(new SolidColorBrush(Color.FromArgb(30, 0, 10, 151))).GetCurrentValueAsFrozen(); } } // #1E000A97
+
+
+        /// <summary>
+        /// Gets or sets the stroke dash to use when painting the cross lines.
+        /// </summary>
+        public DoubleCollection CrossStrokeDashArray
+        {
+            get { return (DoubleCollection)GetValue(CrossStrokeDashArrayProperty); }
+            set { SetValue(CrossStrokeDashArrayProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CrossStrokeDashArray.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CrossStrokeDashArrayProperty =
+            DependencyProperty.Register("CrossStrokeDashArray", typeof(DoubleCollection), typeof(CandleChart), new PropertyMetadata(new DoubleCollection() { 0d, 5d, 10d, 15d } ));
+
+
+
         //----------------------------------------------------------------------------------------------------------------------------------
         /// <summary>Gets or sets the visibility of the cross lines.</summary>
         ///<value>The visibility of the crosslines: Visible if <c>True</c>; Hidden if <c>False</c>. The default is determined by the <see cref="DefaultIsCrossLinesVisible"/> values.</value>
@@ -1774,6 +1997,30 @@ namespace FancyCandles
         public static readonly DependencyProperty MouseWheelModifierKeyForScrollingThroughCandlesProperty =
             DependencyProperty.Register("MouseWheelModifierKeyForScrollingThroughCandles", typeof(ModifierKeys), typeof(CandleChart), new PropertyMetadata(ModifierKeys.Control));
         //--------
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
+            CurrentMousePosition = new Point(0, 0);
+        }
+
+        //protected override void OnMouseDown(MouseButtonEventArgs e)
+        //{
+        //    base.OnMouseDown(e);
+
+        //    if (e.ChangedButton == MouseButton.XButton1)
+        //    {
+        //        if ((VisibleCandlesRange.Start_i + VisibleCandlesRange.Count) < CandlesSource.Count)
+        //            VisibleCandlesRange = IntRange.CreateContainingOnlyStart_i(VisibleCandlesRange.Start_i + 1);
+
+        //    }
+        //    else if (e.ChangedButton == MouseButton.XButton2)
+        //    {
+        //        if (VisibleCandlesRange.Start_i > 0)
+        //            VisibleCandlesRange = IntRange.CreateContainingOnlyStart_i(VisibleCandlesRange.Start_i - 1);
+
+        //    }
+        //}
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             // Пересчитывает VisibleCandlesRange.Start_i, CandleWidth и CandleGap таким образом, 
