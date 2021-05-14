@@ -1647,6 +1647,46 @@ namespace FancyCandles
             return newValue;
         }
 
+        bool currIsPropChange;
+
+        private void AddCandlePropertyWatcher(INotifyPropertyChanged item)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                item.PropertyChanged += Item_PropertyChanged;
+            });
+
+        }
+
+        private void RemoveCandlePropertyWatcher(INotifyPropertyChanged item)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                item.PropertyChanged -= Item_PropertyChanged;
+            });
+        }
+
+        public static bool IsPropChangeType(ICandle obj)
+        {
+            var type = obj.GetType();
+            return typeof(INotifyPropertyChanged).IsAssignableFrom(type);
+        }
+
+        private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var idx = CandlesSource.IndexOf((ICandle)sender);
+
+                if (idx == -1) return;
+
+                int vc_i = idx - VisibleCandlesRange.Start_i; // VisibleCandles index.
+                if (vc_i >= 0 && vc_i < VisibleCandlesRange.Count)
+                    ReCalc_VisibleCandlesExtremums_AfterOneCandleChanged(idx);
+            });
+
+        }
+
         // Заменили коллекцию CandlesSource на новую:
         static void OnCandlesSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
@@ -1656,6 +1696,15 @@ namespace FancyCandles
             if (e.OldValue != null)
             {
                 ObservableCollection<ICandle> old_obsCollection = (ObservableCollection<ICandle>)e.OldValue;
+                
+                foreach (var item in old_obsCollection)
+                {
+                    if (IsPropChangeType(item))
+                    {
+                        thisCandleChart.RemoveCandlePropertyWatcher((INotifyPropertyChanged)item);
+                    }
+                }
+
                 old_obsCollection.CollectionChanged -= thisCandleChart.OnCandlesSourceCollectionChanged;
             }
 
@@ -1664,6 +1713,16 @@ namespace FancyCandles
             if (e.NewValue != null)
             {
                 new_obsCollection = (ObservableCollection<ICandle>)e.NewValue;
+
+
+                foreach (var item in new_obsCollection)
+                {
+                    if (IsPropChangeType(item))
+                    {
+                        thisCandleChart.AddCandlePropertyWatcher((INotifyPropertyChanged)item);
+                    }
+                }
+
                 new_obsCollection.CollectionChanged += thisCandleChart.OnCandlesSourceCollectionChanged;
             }
 
@@ -1711,6 +1770,35 @@ namespace FancyCandles
             }
             if (e.Action == NotifyCollectionChangedAction.Remove) { /* your code */ }
             if (e.Action == NotifyCollectionChangedAction.Move) { /* your code */ }
+
+            if (currIsPropChange)
+            {
+
+                if (e.OldItems != null)
+                {
+                    foreach (var item in e.OldItems)
+                    {
+                        if (IsPropChangeType(item as ICandle))
+                        {
+                            RemoveCandlePropertyWatcher((INotifyPropertyChanged)item);
+                        }
+                    }
+                }
+
+                if (e.NewItems != null)
+                {
+                    foreach (var item in e.OldItems)
+                    {
+                        if (IsPropChangeType(item as ICandle))
+                        {
+                            AddCandlePropertyWatcher((INotifyPropertyChanged)item);
+                        }
+                    }
+                }
+            }
+
+
+
         }
         //----------------------------------------------------------------------------------------------------------------------------------
         int timeFrame;
