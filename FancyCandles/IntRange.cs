@@ -17,6 +17,7 @@
     along with FancyCandles.  If not, see<https://www.gnu.org/licenses/>. */
 
 using System;
+using System.Configuration;
 
 namespace FancyCandles
 {
@@ -37,8 +38,25 @@ namespace FancyCandles
         public IntRange(int start_i, int count)
         {
             Start_i = start_i;
-            Count = count;
+            Count = count;            
         }
+
+        public override string ToString()
+        {
+            return $"{Start_i},{Count}";
+        }
+
+        public static IntRange Parse(string s)
+        {
+            var ir = new IntRange();
+            var sp = s.Split(",");
+
+            ir.Start_i = int.Parse(sp[0].Trim());
+            ir.Count = int.Parse(sp[1].Trim());
+
+            return ir;
+        }
+
         //------------------------------------------------------------------------------------------------------------------------------------------
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member 'IntRange.Equals(object)'
         public override bool Equals(Object obj)

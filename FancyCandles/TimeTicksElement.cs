@@ -281,6 +281,8 @@ namespace FancyCandles
             int date_LabelWidthInCandles = Convert.ToInt32(Math.Ceiling(DayOrMonthOrYear_TickWidth / (CandleWidthAndGap.Width + CandleWidthAndGap.Gap)));
             for (int i = VisibleCandlesRange.Start_i + VisibleCandlesRange.Count - 1; i >= VisibleCandlesRange.Start_i; i--)
             {
+                if (i >= (CandlesSource?.Count ?? 0)) return;
+
                 ICandle cndl = CandlesSource[i];
                 ICandle prev_cndl = i > 0 ? CandlesSource[i - 1] : CandlesSource[0];
 

@@ -46,7 +46,9 @@ namespace FancyCandles
 #pragma warning restore CS1591
 
     /// <summary>Represents the extreme values of Price and Volume for a set of candlesticks.</summary>
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public struct CandleExtremums
+#pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         /// <summary>The Price minimum.</summary>
         /// <value>The Price minimum.</value>
@@ -89,6 +91,9 @@ namespace FancyCandles
         public static readonly double ToolTipFontSize = 9.0;
 #pragma warning restore CS1591
         //----------------------------------------------------------------------------------------------------------------------------------
+
+        public event EventHandler<CandleRangeChangeEventArgs> VisibleCandlesChanged;
+
         void OnUserControlLoaded(object sender, RoutedEventArgs e)
         {
             //IsAlreadyLoaded = true;
@@ -1647,8 +1652,6 @@ namespace FancyCandles
             return newValue;
         }
 
-        bool currIsPropChange;
-
         private void AddCandlePropertyWatcher(INotifyPropertyChanged item)
         {
             Dispatcher.Invoke(() =>
@@ -1674,16 +1677,24 @@ namespace FancyCandles
 
         private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Dispatcher.Invoke(() =>
+            try
             {
-                var idx = CandlesSource.IndexOf((ICandle)sender);
+                Dispatcher.Invoke(() =>
+                {
+                    try
+                    {
+                        var idx = CandlesSource.IndexOf((ICandle)sender);
 
-                if (idx == -1) return;
+                        if (idx == -1) return;
 
-                int vc_i = idx - VisibleCandlesRange.Start_i; // VisibleCandles index.
-                if (vc_i >= 0 && vc_i < VisibleCandlesRange.Count)
-                    ReCalc_VisibleCandlesExtremums_AfterOneCandleChanged(idx);
-            });
+                        int vc_i = idx - VisibleCandlesRange.Start_i; // VisibleCandles index.
+                        if (vc_i >= 0 && vc_i < VisibleCandlesRange.Count)
+                            ReCalc_VisibleCandlesExtremums_AfterOneCandleChanged(idx);
+                    }
+                    catch { }
+                });
+            }
+            catch { }
 
         }
 
@@ -1771,33 +1782,27 @@ namespace FancyCandles
             if (e.Action == NotifyCollectionChangedAction.Remove) { /* your code */ }
             if (e.Action == NotifyCollectionChangedAction.Move) { /* your code */ }
 
-            if (currIsPropChange)
+            if (e.OldItems != null)
             {
-
-                if (e.OldItems != null)
+                foreach (var item in e.OldItems)
                 {
-                    foreach (var item in e.OldItems)
+                    if (IsPropChangeType(item as ICandle))
                     {
-                        if (IsPropChangeType(item as ICandle))
-                        {
-                            RemoveCandlePropertyWatcher((INotifyPropertyChanged)item);
-                        }
-                    }
-                }
-
-                if (e.NewItems != null)
-                {
-                    foreach (var item in e.OldItems)
-                    {
-                        if (IsPropChangeType(item as ICandle))
-                        {
-                            AddCandlePropertyWatcher((INotifyPropertyChanged)item);
-                        }
+                        RemoveCandlePropertyWatcher((INotifyPropertyChanged)item);
                     }
                 }
             }
 
-
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    if (IsPropChangeType(item as ICandle))
+                    {
+                        AddCandlePropertyWatcher((INotifyPropertyChanged)item);
+                    }
+                }
+            }
 
         }
         //----------------------------------------------------------------------------------------------------------------------------------
@@ -1920,7 +1925,15 @@ namespace FancyCandles
         {
             CandleChart thisCandleChart = (CandleChart)obj;
             if (thisCandleChart.IsLoaded)
+            {
                 thisCandleChart.ReCalc_VisibleCandlesExtremums();
+                thisCandleChart.OnNotifyCandleRangeChanged();
+            }
+        }
+
+        protected void OnNotifyCandleRangeChanged()
+        {
+            VisibleCandlesChanged?.Invoke(this, new CandleRangeChangeEventArgs(VisibleCandlesRange));
         }
 
         private static object CoerceVisibleCandlesRange(DependencyObject objWithOldDP, object baseValue)

@@ -195,6 +195,7 @@ namespace FancyCandles
 
             for (int i = 0; i < VisibleCandlesRange.Count; i++)
             {
+                if (i >= (CandlesSource?.Count ?? 0)) return;
                 ICandle cndl = CandlesSource[VisibleCandlesRange.Start_i + i];
                 Brush cndlBrush = (cndl.C > cndl.O) ? BullishCandleFill : BearishCandleFill;
                 Pen cndlPen = (cndl.C > cndl.O) ? bullishCandleStrokePen : bearishCandleStrokePen;
