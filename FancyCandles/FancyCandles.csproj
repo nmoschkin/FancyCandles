@@ -13,6 +13,7 @@ Recompiled for .NET 5 by Nathaniel Moschkin</Description>
     <Copyright>Copyright ©  2019</Copyright>
     <RootNamespace>FancyCandles</RootNamespace>
     <AssemblyName>FancyCandles</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
